@@ -1,25 +1,44 @@
 package com.pangbai520.multi_page_chest_neoforge;
 
-import net.minecraft.client.Minecraft;
+import com.pangbai520.multi_page_chest_neoforge.client.MultiPageChestItemRenderer;
+import com.pangbai520.multi_page_chest_neoforge.client.MultiPageChestRenderer;
+import com.pangbai520.multi_page_chest_neoforge.client.MultiPageChestScreen;
+import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.fml.common.Mod;
-import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
-import net.neoforged.neoforge.client.gui.ConfigurationScreen;
-import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
+import net.neoforged.neoforge.client.event.EntityRenderersEvent;
+import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
+import net.neoforged.neoforge.client.extensions.common.IClientItemExtensions;
+import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsEvent;
 
-@Mod(value = MultiPageChestNeoForge.MODID, dist = Dist.CLIENT)
 @EventBusSubscriber(modid = MultiPageChestNeoForge.MODID, value = Dist.CLIENT)
-public class MultiPageChestNeoForgeClient {
-    public MultiPageChestNeoForgeClient(ModContainer container) {
-        container.registerExtensionPoint(IConfigScreenFactory.class, ConfigurationScreen::new);
+public final class MultiPageChestNeoForgeClient {
+    private MultiPageChestNeoForgeClient() {
     }
 
     @SubscribeEvent
-    static void onClientSetup(FMLClientSetupEvent event) {
-        MultiPageChestNeoForge.LOGGER.info("HELLO FROM CLIENT SETUP");
-        MultiPageChestNeoForge.LOGGER.info("MINECRAFT NAME >> {}", Minecraft.getInstance().getUser().getName());
+    static void registerScreens(RegisterMenuScreensEvent event) {
+        event.register(MultiPageChestNeoForge.MULTI_PAGE_CHEST_MENU.get(), MultiPageChestScreen::new);
+    }
+
+    @SubscribeEvent
+    static void registerRenderers(EntityRenderersEvent.RegisterRenderers event) {
+        event.registerBlockEntityRenderer(
+                MultiPageChestNeoForge.MULTI_PAGE_CHEST_BLOCK_ENTITY.get(),
+                MultiPageChestRenderer::new
+        );
+    }
+
+    @SubscribeEvent
+    static void registerClientExtensions(RegisterClientExtensionsEvent event) {
+        event.registerItem(new IClientItemExtensions() {
+            private final BlockEntityWithoutLevelRenderer renderer = new MultiPageChestItemRenderer();
+
+            @Override
+            public BlockEntityWithoutLevelRenderer getCustomRenderer() {
+                return renderer;
+            }
+        }, MultiPageChestNeoForge.MULTI_PAGE_CHEST_ITEM.get());
     }
 }

@@ -1,0 +1,8 @@
+{
+  "variants": {
+    "facing=north": { "model": "multipagechest:block/multi_page_chest" },
+    "facing=south": { "model": "multipagechest:block/multi_page_chest" },
+    "facing=west": { "model": "multipagechest:block/multi_page_chest" },
+    "facing=east": { "model": "multipagechest:block/multi_page_chest" }
+  }
+}
