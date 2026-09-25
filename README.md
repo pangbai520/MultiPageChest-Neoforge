@@ -65,6 +65,6 @@ To regenerate data resources:
 
 ## License
 
-All rights reserved. See [TEMPLATE_LICENSE.txt](TEMPLATE_LICENSE.txt).
+All rights reserved. See [LICENSE](LICENSE).
 
 This project is a clean-room rewrite for NeoForge 1.21.1 based on the behavior of the original 1.7.10 Multi Page Chest mod.
